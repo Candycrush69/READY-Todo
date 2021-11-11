@@ -2,15 +2,32 @@ const input = document.querySelector('#todo__input')
 const btn = document.querySelector('#todo__add')
 const list = document.querySelector('#todo__list')
 
-btn.addEventListener('click', () => {
-  const value = input.value
-  if (value =='') {alert('Поле ввода не должно быть пустым! Повторите попытку снова.')} 
-  else {
+EnterClick()
+
+function EnterClick() {
+  document.querySelector('input').addEventListener('keydown', function(e) {
+    if (e.keyCode === 13) {
+      const value = input.value
+    if (value =='') {alert('Поле ввода не должно быть пустым! Повторите попытку снова.')} 
+    else {
     sendName(value)
     input.value = ''
     }
-  
+    } 
+  });
+};
+
+
+btn.addEventListener('click', () => {
+    const value = input.value
+    if (value =='') {alert('Поле ввода не должно быть пустым! Повторите попытку снова.')} 
+    else {
+    sendName(value)
+    input.value = ''
+    }
+        
 })
+
 
 fetchTodo()
   

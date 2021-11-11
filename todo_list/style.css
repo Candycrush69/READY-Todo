@@ -108,7 +108,9 @@ h4 {
 .todo__item span {
   max-width: 350px;
 }
-
+.todo__item input[type="checkbox"]:checked {
+  background-color: rgba(0,0,0,.5);
+}
 .todo__remove {
   font-size: 18px;
   padding: 4px 10px;
