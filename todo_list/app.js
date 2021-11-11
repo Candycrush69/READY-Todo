@@ -4,20 +4,6 @@ const list = document.querySelector('#todo__list')
 
 EnterClick()
 
-function EnterClick() {
-  document.querySelector('input').addEventListener('keydown', function(e) {
-    if (e.keyCode === 13) {
-      const value = input.value
-    if (value =='') {alert('Поле ввода не должно быть пустым! Повторите попытку снова.')} 
-    else {
-    sendName(value)
-    input.value = ''
-    }
-    } 
-  });
-};
-
-
 btn.addEventListener('click', () => {
     const value = input.value
     if (value =='') {alert('Поле ввода не должно быть пустым! Повторите попытку снова.')} 
@@ -27,7 +13,6 @@ btn.addEventListener('click', () => {
     }
         
 })
-
 
 fetchTodo()
   
@@ -55,6 +40,45 @@ list.addEventListener('click', e => {
   }
 })
 
+
+
+
+/*Функции*/ 
+function EnterClick() {
+  document.querySelector('input').addEventListener('keydown', function(e) {
+    if (e.keyCode === 13) {
+      const value = input.value
+    if (value =='') {alert('Поле ввода не должно быть пустым! Повторите попытку снова.')} 
+    else {
+    sendName(value)
+    input.value = ''
+    }
+    }
+
+  });
+};
+//-------------------------------------------------------------------
+function replaceOnInput(target) {
+  const todo = target.closest('li')
+  const input = document.createElement('input')
+  input.value = target.textContent
+  target.replaceWith(input)
+  
+  // Прослушиватели
+  input.focus()
+  input.addEventListener('blur', () => {
+    replaceOnSpan(input)
+    updateTodo(todo)
+  })
+}
+
+function replaceOnSpan(target) {
+  target.insertAdjacentHTML('afterend', 
+    `<span>${target.value}</span>`
+  )
+  target.remove()
+}
+//-----------------------------------------------------------------------
 function fetchTodo() {
   fetch('./php/todo.php')
     .then(res => res.json())
@@ -81,6 +105,7 @@ function sendName(todo) {
   }).then(res => fetchTodo())
 }
 
+// апдейт
 function updateTodo(todo) {
   const id = todo.dataset.id
   const checked = todo.querySelector('input').checked
@@ -96,6 +121,7 @@ function updateTodo(todo) {
   })
 }
 
+// удаление
 function removeTodo(id) {
   console.log(id);
   fetch('./php/todo.php', {
@@ -105,27 +131,4 @@ function removeTodo(id) {
     })
   })
 }
-
-function replaceOnInput(target) {
-  const todo = target.closest('li')
-  const input = document.createElement('input')
-  input.value = target.textContent
-  target.replaceWith(input)
-  
-  // Прослушиватели
-  input.focus()
-  input.addEventListener('blur', () => {
-    replaceOnSpan(input)
-    updateTodo(todo)
-  })
-}
-
-function replaceOnSpan(target) {
-  target.insertAdjacentHTML('afterend', 
-    `<span>${target.value}</span>`
-  )
-  target.remove()
-}
-
-
 
